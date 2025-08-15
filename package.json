@@ -1,0 +1,24 @@
+{
+  "name": "defratechnicaltest",
+  "version": "1.0.0",
+  "description": "Defra Technical Test",
+  "main": "index.js",
+  "scripts": {
+    "defraTestSuite": "cucumber-js --tags @defraTestSuite --format json:reports/cucumber-report.json && npm run report",
+    "checkout": "cucumber-js --tags @checkout --format json:reports/cucumber-report.json && npm run report",
+    "login": "cucumber-js --tags @login --format json:reports/cucumber-report.json && npm run report",
+    "logout": "cucumber-js --tags @logout --format json:reports/cucumber-report.json && npm run report",
+    "report": "node ./support/create-report.ts"
+  },
+  "dependencies": {
+    "@types/node": "^24.2.1",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.1.0",
+    "@playwright/test": "^1.54.2",
+    "cucumber-html-reporter": "^7.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}

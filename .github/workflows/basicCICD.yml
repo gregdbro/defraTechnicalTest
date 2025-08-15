@@ -1,0 +1,56 @@
+name: Basic CI/CD Pipeline for DEFRA
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: "30 5 * * 5"
+
+env:
+  ENV: prod
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'prod'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Create the .env.ENV file
+        run: |
+          cd env
+          cat << EOF > .env.${{ env.ENV }}
+          BASE_URL=${{ vars.BASE_URL }}
+          STANDARD_USER=${{ vars.STANDARD_USER }}
+          STANDARD_PASSWORD=${{ secrets.STANDARD_PASSWORD }}
+          LOCKED_OUT_USER=${{ vars.LOCKED_OUT_USER }}
+          LOCKED_OUT_PASSWORD=${{ secrets.LOCKED_OUT_PASSWORD }}
+          PROBLEM_USER=${{ vars.PROBLEM_USER }}
+          PROBLEM_PASSWORD=${{ secrets.PROBLEM_PASSWORD }}
+          PERFORMANCE_GLITCH_USER=${{ vars.PERFORMANCE_GLITCH_USER }}
+          PERFORMANCE_GLITCH_PASSWORD=${{ secrets.PERFORMANCE_GLITCH_PASSWORD }}
+          ERROR_USER=${{ vars.ERROR_USER }}
+          ERROR_PASSWORD=${{ secrets.ERROR_PASSWORD }}
+          VISUAL_USER=${{ vars.VISUAL_USER }}
+          VISUAL_PASSWORD=${{ secrets.VISUAL_PASSWORD }}
+          EOF
+
+      - name: Run UI tests
+        run: |
+          npm run checkout
