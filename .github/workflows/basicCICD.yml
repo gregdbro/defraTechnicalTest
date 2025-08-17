@@ -53,4 +53,4 @@ jobs:
 
       - name: Run UI tests
         run: |
-          npm run checkout
+          npm run defraTestSuite
