@@ -4,7 +4,7 @@
   "description": "Defra Technical Test",
   "main": "index.js",
   "scripts": {
-    "defraTestSuite": "cucumber-js --tags @defraTestSuite --format json:reports/cucumber-report.json && npm run report",
+    "defraTestSuite": "cucumber-js --tags @defraTestSuite --format json:reports/cucumber-report.json --parallel && npm run report",
     "checkout": "cucumber-js --tags @checkout --format json:reports/cucumber-report.json && npm run report",
     "login": "cucumber-js --tags @login --format json:reports/cucumber-report.json && npm run report",
     "logout": "cucumber-js --tags @logout --format json:reports/cucumber-report.json && npm run report",
